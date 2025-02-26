@@ -28,7 +28,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: "./index.html",
         title: "Mini Index PWA",
-        favicon: "./src/images/logo.png", // Assuming this can be used as favicon
+        favicon: "./src/images/logo.png",
       }),
       new WebpackPwaManifest({
         fingerprints: false,
