@@ -369,15 +369,8 @@ async function processFiles(
         };
         reader.readAsText(file); // Read as text for processing
       } else {
-        // For non-text/binary files, provide a download link or preview
-        metadata.content =
-          '<a href="' +
-          URL.createObjectURL(file) +
-          '" download="' +
-          file.name +
-          '" target="_blank">Download ' +
-          file.name +
-          "</a>";
+        // For non-text/binary files, provide a placeholder thumbnail or download link
+        metadata.content = generateFilePreview(file);
         fileIndex[metadata.path] = metadata;
 
         processedCount++;
@@ -413,43 +406,118 @@ async function processFiles(
   }, 1000);
 }
 
-// Process special file types (CSV, DOCX, PDF, PPT/PPTX)
+// Process special file types (CSV, DOCX, PDF, PPT/PPTX) for preview
 function processSpecialFileContent(file, content) {
   switch (file.name.split(".").pop().toLowerCase()) {
     case "csv":
-      // Parse CSV content (simple parsing, assuming comma-separated)
+      // Parse CSV content into a readable format
       return content
         .split("\n")
         .map((row) => row.split(",").map((cell) => cell.trim()))
         .map((row) => row.join(" | "))
         .join("\n");
     case "docx":
+      // Placeholder for DOCX - provide a text preview or thumbnail
+      return generateDocxPreview(file);
+    case "pdf":
+      // Use pdf.js to generate a thumbnail or preview
+      return generatePdfPreview(file);
     case "ppt":
     case "pptx":
-      // For DOCX and PowerPoint, provide a download link or basic text extraction
-      return (
-        "Preview not available. <a href='" +
-        URL.createObjectURL(file) +
-        "' download='" +
-        file.name +
-        "' target='_blank'>Download " +
-        file.name +
-        "</a>"
-      );
-    case "pdf":
-      // For PDFs, provide a download link or embed if possible (basic approach here)
-      return (
-        "Preview not available. <a href='" +
-        URL.createObjectURL(file) +
-        "' download='" +
-        file.name +
-        "' target='_blank'>Download " +
-        file.name +
-        "</a>"
-      );
+      // Placeholder for PowerPoint - provide a thumbnail or text preview
+      return generatePptPreview(file);
     default:
       return content || "Content not available";
   }
+}
+
+// Generate a preview for non-text files
+function generateFilePreview(file) {
+  const extension = file.name.split(".").pop().toLowerCase();
+  switch (extension) {
+    case "pdf":
+      return generatePdfPreview(file);
+    case "docx":
+      return generateDocxPreview(file);
+    case "ppt":
+    case "pptx":
+      return generatePptPreview(file);
+    default:
+      return (
+        "Preview not available. <a href='" +
+        URL.createObjectURL(file) +
+        "' download='" +
+        file.name +
+        "' target='_blank'>Download " +
+        file.name +
+        "</a>"
+      );
+  }
+}
+
+// Generate PDF preview using pdf.js (requires installation)
+function generatePdfPreview(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      try {
+        // Import pdf.js (ensure it's installed and configured)
+        const { getDocument, GlobalWorkerOptions } = await import("pdfjs-dist");
+        GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+        const pdfData = new Uint8Array(e.target.result);
+        const pdf = await getDocument({ data: pdfData }).promise;
+        const page = await pdf.getPage(1); // Get the first page for thumbnail
+        const viewport = page.getViewport({ scale: 0.5 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        await page.render({ canvasContext: context, viewport }).promise;
+
+        resolve(
+          `<img src="${canvas.toDataURL()}" alt="PDF Thumbnail" class="file-preview-thumbnail" />`
+        );
+      } catch (error) {
+        console.error("Error generating PDF preview:", error);
+        resolve(
+          "Preview not available. <a href='" +
+            URL.createObjectURL(file) +
+            "' download='" +
+            file.name +
+            "' target='_blank'>Download " +
+            file.name +
+            "</a>"
+        );
+      }
+    };
+    reader.onerror = function (error) {
+      console.error("Error reading PDF:", error);
+      resolve(
+        "Preview not available. <a href='" +
+          URL.createObjectURL(file) +
+          "' download='" +
+          file.name +
+          "' target='_blank'>Download " +
+          file.name +
+          "</a>"
+      );
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+// Generate DOCX preview (simple placeholder, requires docx library for full support)
+function generateDocxPreview(file) {
+  // Placeholder: Basic text or thumbnail (requires docx library for full parsing)
+  return `<div class="file-preview-placeholder">DOCX Preview: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0c8AAAAASUVORK5CYII=" alt="DOCX Thumbnail" class="file-preview-thumbnail" /></div>`;
+}
+
+// Generate PowerPoint preview (simple placeholder, requires pptxjs for full support)
+function generatePptPreview(file) {
+  // Placeholder: Basic text or thumbnail (requires pptxjs library for full parsing)
+  return `<div class="file-preview-placeholder">PowerPoint Preview: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0c8AAAAASUVORK5CYII=" alt="PPT Thumbnail" class="file-preview-thumbnail" /></div>`;
 }
 
 // Show progress indicator
@@ -522,7 +590,7 @@ function updateIndexedFilesUI(fileIndex) {
   const filePreview = document.getElementById("file-preview");
   if (!filePreview) return;
 
-  let html = "<h2>Indexed Files</h2>";
+  let html = '<div class="preview-header"><h2>Indexed Files</h2></div>';
   html += '<ul class="indexed-files">';
 
   // List individual file names with clickable links
@@ -555,7 +623,10 @@ function showFileContent(file, fileIndex) {
   const filePreview = document.getElementById("file-preview");
   if (!filePreview) return;
 
-  let html = `<h2>File Preview: ${file.name}</h2>`;
+  let html =
+    '<div class="preview-header"><h2>File Preview: ' +
+    file.name +
+    "</h2></div>";
   html += `<p><strong>Path:</strong> ${file.path}</p>`;
   html += `<p><strong>Size:</strong> ${formatFileSize(file.size)}</p>`;
   html += `<p><strong>Last Modified:</strong> ${new Date(
@@ -563,7 +634,12 @@ function showFileContent(file, fileIndex) {
   ).toLocaleString()}</p>`;
 
   // Handle content display for different file types
-  if (typeof file.content === "string" && file.content.includes("<a href=")) {
+  if (typeof file.content === "string" && file.content.includes("<img")) {
+    html += `<div class="file-content">${file.content}</div>`;
+  } else if (
+    typeof file.content === "string" &&
+    file.content.includes("<div")
+  ) {
     html += `<div class="file-content">${file.content}</div>`;
   } else if (file.content) {
     html += '<div class="file-content">';
@@ -574,7 +650,7 @@ function showFileContent(file, fileIndex) {
   }
 
   html +=
-    '<button id="backToFiles" style="margin-top: 16px;">Back to Indexed Files</button>';
+    '<button id="backToFiles" class="preview-back-btn">Back to Indexed Files</button>';
 
   filePreview.innerHTML = html;
 
@@ -600,7 +676,7 @@ function initSearch() {
   async function performSearch(query) {
     if (!query.trim()) {
       filePreview.innerHTML =
-        "<h2>Preview</h2><p>Enter a search term to find files.</p>";
+        '<div class="preview-header"><h2>Preview</h2></div><p>Enter a search term to find files.</p>';
       return;
     }
 
@@ -616,7 +692,7 @@ function initSearch() {
     } catch (error) {
       console.error("Search error:", error);
       filePreview.innerHTML =
-        "<h2>Search Error</h2><p>Error accessing the file index.</p>";
+        '<div class="preview-header"><h2>Search Error</h2></div><p>Error accessing the file index.</p>';
     }
   }
 
@@ -668,9 +744,12 @@ function initSearch() {
 
     if (results.length === 0) {
       filePreview.innerHTML =
-        "<h2>No Results</h2><p>No files match your search query.</p>";
+        '<div class="preview-header"><h2>No Results</h2></div><p>No files match your search query.</p>';
     } else {
-      let html = `<h2>Search Results for "${query}"</h2>`;
+      let html =
+        '<div class="preview-header"><h2>Search Results for "' +
+        query +
+        '"</h2></div>';
       html += '<ul class="search-results">';
 
       results.forEach((file) => {
@@ -711,11 +790,11 @@ function formatFileSize(bytes) {
 // Escape HTML to prevent XSS
 function escapeHtml(unsafe) {
   return unsafe
-    .replace(/&/g, "&")
-    .replace(/</g, "<")
-    .replace(/>/g, ">")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
-    .replace(/'/g, "'");
+    .replace(/'/g, "&#039;");
 }
 
 // Setup installation detection and handling

@@ -1,14 +1,14 @@
 /* Core Variables */
 :root {
-  --primary: #546e7a; /* Changed to match drag-drop.css blue */
+  --primary: #546e7a; /* Muted grayish-blue for buttons and navigation */
   --secondary: #e9ecef;
-  --accent: #4caf50; /* Changed to match the enhanced-pwa.css green */
+  --accent: #4caf50; /* Green for Install App button */
   --text-dark: #2c3e50;
   --text-light: #eceff1;
   --card-bg: #ffffff;
   --body-bg: #e9ecef;
-  --btn-primary: #546e7a; /* Changed to match drag-drop.css */
-  --btn-hover: #0062a3; /* Changed to match drag-drop.css hover */
+  --btn-primary: #546e7a; /* Matches drag-drop.css */
+  --btn-hover: #0062a3; /* Matches drag-drop.css hover */
   --btn-text: #ffffff;
   --border-radius: 8px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -390,6 +390,7 @@ footer {
   margin-top: 2px;
 }
 
+/* File content styling */
 .file-content {
   margin-top: 15px;
   border: 1px solid #ddd;
@@ -489,33 +490,85 @@ footer {
   font-size: 0.9em;
 }
 
-/* Style the file content preview */
+/* Style the preview header (with back button) */
+.preview-header {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preview-header h2 {
+  margin: 0;
+  font-size: 1.2em;
+  display: inline-block;
+}
+
+/* Style the back button in the preview header */
+.preview-back-btn {
+  background-color: var(--btn-primary);
+  border: 1px solid var(--btn-primary);
+  color: var(--btn-text);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 0.9em;
+  vertical-align: middle;
+}
+
+.preview-back-btn:hover {
+  background-color: var(--btn-hover);
+}
+
+/* Style the file content preview and thumbnails */
+.file-content {
+  margin-top: 15px;
+  padding: 10px;
+  max-height: 400px; /* Increased to accommodate previews */
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+}
+
 .file-content pre {
   white-space: pre-wrap;
   word-wrap: break-word;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: #f9f9f9;
-  padding: 10px;
+  margin: 0;
+}
+
+.file-content img.file-preview-thumbnail {
+  max-width: 100%;
+  height: auto;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
+  margin-top: 10px;
 }
 
-.file-content a {
-  color: #007acc;
-  text-decoration: underline;
+.file-content .file-preview-placeholder {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  margin-top: 10px;
 }
 
-/* Style the back button */
-#backToFiles {
-  background-color: #007acc;
-  border: 1px solid #007acc;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
+.file-content .file-preview-placeholder img {
+  max-width: 150px; /* Increased for better visibility */
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
 }
 
-#backToFiles:hover {
-  background-color: #0061a1;
+/* Ensure the preview pane has enough height for thumbnails */
+#file-preview {
+  height: 100%;
+  min-height: 500px;
+}
+
+@media (max-width: 768px) {
+  #file-preview {
+    min-height: 400px;
+  }
 }
