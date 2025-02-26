@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mini Index - File & Email Search</title>
 
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1c1c1c" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Mini Index" />
+
+    <!-- Favicon (Webpack will override, but this is a fallback) -->
+    <link rel="icon" type="image/png" href="/assets/icons/logo-192.png" />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,13 +26,19 @@
       rel="stylesheet"
     />
 
-    <!-- No need to manually link CSS - webpack handles this -->
+    <!-- No need to manually link CSS or JS - webpack handles this -->
   </head>
   <body>
     <!-- Navigation Bar -->
     <nav id="navbar">
       <h1>Mini Index</h1>
-      <button id="buttonInstall" class="btn">Install App</button>
+      <button
+        id="buttonInstall"
+        class="btn"
+        aria-label="Install Mini Index app"
+      >
+        Install App
+      </button>
     </nav>
 
     <main id="main-content">
@@ -29,7 +48,12 @@
           <h2>Index Files</h2>
 
           <!-- Drag and drop area -->
-          <div id="dropZone" class="drop-area">
+          <div
+            id="dropZone"
+            class="drop-area"
+            role="region"
+            aria-label="Drag and drop area for files and folders"
+          >
             <img
               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='43' viewBox='0 0 24 24' fill='none' stroke='%2378909c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3Cpath d='M12 11v6'%3E%3C/path%3E%3Cpath d='m9 14 3-3 3 3'%3E%3C/path%3E%3C/svg%3E"
               alt="Folder icon"
@@ -46,17 +70,25 @@
               id="directoryPath"
               placeholder="Enter directory path (available when installed)"
               disabled
+              aria-label="Directory path input"
             />
           </div>
 
-          <button id="indexFilesBtn">Select Files to Index</button>
+          <button
+            id="indexFilesBtn"
+            aria-label="Select files or directories to index"
+          >
+            Select Files
+          </button>
           <div id="indexStatus">Ready to index files</div>
           <div class="indexing-progress"><div class="bar"></div></div>
         </section>
 
         <section id="email-fetch" class="card">
           <h2>Fetch Emails</h2>
-          <button id="fetchEmailsBtn">Sync My Emails</button>
+          <button id="fetchEmailsBtn" aria-label="Sync emails">
+            Sync My Emails
+          </button>
           <p id="emailStatus">No emails synced yet</p>
         </section>
 
@@ -66,8 +98,11 @@
             type="text"
             id="searchQuery"
             placeholder="Search files or emails..."
+            aria-label="Search files or emails"
           />
-          <button id="searchBtn">Search</button>
+          <button id="searchBtn" aria-label="Search files and emails">
+            Search
+          </button>
         </section>
       </div>
 
@@ -81,7 +116,7 @@
     </main>
 
     <footer>
-      <p>&copy; 2025 Mini Index</p>
+      <p>© 2025 Mini Index</p>
     </footer>
 
     <!-- Webpack will inject necessary script tags -->
