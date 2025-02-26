@@ -1,0 +1,116 @@
+/* Styles for enhanced capabilities in installed PWA mode */
+
+/* Badge to show enhanced capabilities */
+.enhanced-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #4caf50;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+/* Style for the standalone PWA mode */
+@media (display-mode: standalone) {
+  /* Apply special styling for the installed app */
+  #navbar {
+    background-color: #005a9e;
+  }
+
+  #navbar h1::after {
+    content: " (Installed)";
+    font-size: 0.7rem;
+    vertical-align: super;
+    margin-left: 5px;
+    opacity: 0.7;
+  }
+
+  /* Make the index button more prominent in installed mode */
+  #indexFilesBtn {
+    background-color: #4caf50;
+    font-weight: bold;
+  }
+
+  #indexFilesBtn:hover {
+    background-color: #45a049;
+  }
+
+  /* Enhance input fields in installed mode */
+  #directoryPath {
+    border-color: #4caf50;
+  }
+}
+
+/* Make the status message more prominent for enhanced capabilities */
+.enhanced-status {
+  background-color: #e7f7e7 !important;
+  border-left-color: #4caf50 !important;
+  padding: 10px !important;
+}
+
+/* Style for the directory browser dialog button */
+.directory-browser-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  height: 30px;
+  width: 30px;
+  background-color: #ececec;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.directory-browser-button::before {
+  content: "📁";
+  font-size: 16px;
+}
+
+.directory-browser-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Container for the directory path input to allow for button positioning */
+.directory-input-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Progress indicator for indexing */
+.indexing-progress {
+  height: 4px;
+  background-color: #ddd;
+  width: 100%;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.indexing-progress .bar {
+  height: 100%;
+  width: 0;
+  background-color: #007acc;
+  transition: width 0.3s ease;
+}
+
+.indexing-progress.active .bar {
+  animation: progress-animation 2s infinite linear;
+}
+
+@keyframes progress-animation {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 80%;
+  }
+  100% {
+    width: 100%;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "mini-index",
+  "version": "1.0.0",
+  "description": "A file and email indexing PWA with frontend and backend",
+  "main": "server.js",
+  "scripts": {
+    "dev": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start:server": "cd server && npm start",
+    "start": "concurrently \"npm run dev\" \"npm run start:server\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "if-env": "^1.0.4"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
