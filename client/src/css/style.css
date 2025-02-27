@@ -56,7 +56,7 @@ body {
 
 /* Left sidebar */
 .sidebar {
-  width: 220px;
+  width: 225px;
   background-color: var(--sidebar-bg);
   padding: 20px;
   border-radius: var(--border-radius);
@@ -261,10 +261,14 @@ body {
 
 .thumbnail {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 80px;
 }
 
 .thumbnail .info-content {
-  min-height: 200px;
+  min-height: 250px;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -325,18 +329,103 @@ body {
   padding: 20px;
 }
 
-/* Drag and drop floating container */
+/* Drag and drop floating button with more prominence */
 .drag-drop-floating {
   position: fixed;
-  bottom: 80px;
-  left: 20px;
-  width: 300px;
-  background-color: var(--card-bg);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  padding: 15px;
+  bottom: 60px;
+  right: 215px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(76, 175, 80, 0.3); /* Double shadow for glow effect */
   z-index: 900;
-  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #3b8a3d; /* Darker border for contrast */
+  animation: pulse 2s infinite; /* Add subtle pulsing animation */
+}
+
+.drag-drop-floating:hover {
+  width: 300px;
+  height: auto;
+  border-radius: var(--border-radius);
+  background-color: var(--card-bg);
+  border: 2px solid var(--accent);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  animation: none; /* Stop pulsing on hover */
+}
+
+/* Pulse animation for the button */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(76, 175, 80, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(76, 175, 80, 0.4);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(76, 175, 80, 0.3);
+  }
+}
+
+/* Make the icon more visible */
+.drag-drop-floating .folder-icon {
+  margin: 0;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+  stroke: white; /* Make SVG stroke white */
+  stroke-width: 2px;
+}
+
+/* Improved expanded styling */
+.drag-drop-floating:hover .drop-area {
+  border: 2px dashed var(--accent);
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+/* Add a label to the button */
+.drag-drop-floating::after {
+  content: "+";
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: white;
+  color: var(--accent);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  border: 1px solid #3b8a3d;
+}
+
+.drag-drop-floating:hover .folder-icon {
+  margin-bottom: 10px;
+}
+
+.drag-drop-floating:hover::after {
+  display: none;
+}
+
+.drag-drop-floating h3,
+.drag-drop-floating .drop-text,
+.drag-drop-floating .drop-text-sub,
+.drag-drop-floating .secondary-btn {
+  display: none;
+}
+
+.drag-drop-floating:hover h3,
+.drag-drop-floating:hover .drop-text,
+.drag-drop-floating:hover .drop-text-sub,
+.drag-drop-floating:hover .secondary-btn {
+  display: block;
 }
 
 .drag-drop-floating h3 {
@@ -716,8 +805,9 @@ footer {
   /* Right sidebar adjustment */
   .info-sidebar {
     height: calc(100% - 10px);
-    margin-bottom: 45px; /* Account for footer */
+    margin-bottom: 85px; /* Account for footer */
     margin-top: 10px;
+    padding-bottom: 20px;
   }
 
   .info-panel {
@@ -740,9 +830,8 @@ footer {
   }
 
   .drag-drop-floating {
-    position: static;
-    width: 100%;
-    margin: 20px 0;
+    bottom: 70px;
+    right: 20px;
   }
 }
 
