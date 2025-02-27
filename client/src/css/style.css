@@ -158,9 +158,11 @@ body {
   width: 20%;
 }
 
+/* Adjust the count column to make room for the install button */
 .count-column {
-  width: 15%;
+  width: 18%;
   text-align: center;
+  padding-right: 120px; /* Add extra padding to avoid overlap with button */
 }
 
 /* Table body */
@@ -329,113 +331,6 @@ body {
   padding: 20px;
 }
 
-/* Drag and drop floating button with more prominence */
-.drag-drop-floating {
-  position: fixed;
-  bottom: 60px;
-  right: 215px;
-  width: 60px;
-  height: 60px;
-  background-color: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(76, 175, 80, 0.3); /* Double shadow for glow effect */
-  z-index: 900;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #3b8a3d; /* Darker border for contrast */
-  animation: pulse 2s infinite; /* Add subtle pulsing animation */
-}
-
-.drag-drop-floating:hover {
-  width: 300px;
-  height: auto;
-  border-radius: var(--border-radius);
-  background-color: var(--card-bg);
-  border: 2px solid var(--accent);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  animation: none; /* Stop pulsing on hover */
-}
-
-/* Pulse animation for the button */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(76, 175, 80, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(76, 175, 80, 0.4);
-  }
-  100% {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(76, 175, 80, 0.3);
-  }
-}
-
-/* Make the icon more visible */
-.drag-drop-floating .folder-icon {
-  margin: 0;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
-  stroke: white; /* Make SVG stroke white */
-  stroke-width: 2px;
-}
-
-/* Improved expanded styling */
-.drag-drop-floating:hover .drop-area {
-  border: 2px dashed var(--accent);
-  background-color: rgba(76, 175, 80, 0.05);
-}
-
-/* Add a label to the button */
-.drag-drop-floating::after {
-  content: "+";
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background-color: white;
-  color: var(--accent);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 16px;
-  border: 1px solid #3b8a3d;
-}
-
-.drag-drop-floating:hover .folder-icon {
-  margin-bottom: 10px;
-}
-
-.drag-drop-floating:hover::after {
-  display: none;
-}
-
-.drag-drop-floating h3,
-.drag-drop-floating .drop-text,
-.drag-drop-floating .drop-text-sub,
-.drag-drop-floating .secondary-btn {
-  display: none;
-}
-
-.drag-drop-floating:hover h3,
-.drag-drop-floating:hover .drop-text,
-.drag-drop-floating:hover .drop-text-sub,
-.drag-drop-floating:hover .secondary-btn {
-  display: block;
-}
-
-.drag-drop-floating h3 {
-  text-align: center;
-  color: var(--primary);
-  margin-bottom: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
 /* Keep existing drop area styling */
 .drop-area {
   border: 2px dashed #ccc;
@@ -450,11 +345,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.drop-area.floating {
-  margin-bottom: 0;
-  padding: 15px;
 }
 
 .drop-area:hover {
@@ -609,17 +499,33 @@ input[type="text"]:focus {
   margin: 0;
 }
 
-/* Install app button */
+/* Position Install App button at top right of main content */
 .install-btn {
-  position: absolute;
+  position: fixed; /* Change to fixed instead of absolute */
   top: 25px;
-  right: 25px;
+  right: 285px;
   background-color: var(--accent);
   color: white;
-  width: auto;
-  white-space: nowrap;
-  z-index: 100;
+  padding: 8px 15px;
   font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid #3b8a3d;
+  transition: all 0.2s ease;
+  z-index: 100;
+  cursor: pointer;
+  width: auto; /* Explicitly set width to auto */
+  display: inline-block; /* Change display property */
+  margin: 0; /* Reset any margins */
+  max-width: 150px; /* Set a maximum width */
+}
+
+.install-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: auto; /* Maintain width on hover */
 }
 
 /* Progress indicator */
@@ -828,11 +734,6 @@ footer {
     margin: 20px auto;
     display: block;
   }
-
-  .drag-drop-floating {
-    bottom: 70px;
-    right: 20px;
-  }
 }
 
 /* Maintain current PWA styling */
@@ -864,4 +765,80 @@ footer {
   .install-btn {
     display: none;
   }
+}
+
+/* Directory selection button for installed version */
+.directory-select-btn {
+  position: fixed;
+  bottom: 60px;
+  right: 130px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(84, 110, 122, 0.3);
+  z-index: 900;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #455a64; /* Darker shade of primary */
+  display: none; /* Hidden by default, shown for installed apps */
+}
+
+.app-installed .directory-select-btn {
+  display: flex; /* Show only when app is installed */
+}
+
+.directory-select-btn::before {
+  content: "📂";
+  font-size: 24px;
+}
+
+.directory-select-btn:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Directory input styling for modal */
+.directory-section {
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--grid-line);
+  padding-bottom: 15px;
+}
+
+.directory-section h3 {
+  margin-bottom: 10px;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.browse-btn {
+  margin-top: 5px;
+  background-color: var(--primary);
+}
+
+.info-text {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* Show these only when app is installed */
+.app-installed .info-text {
+  display: none;
+}
+
+.app-installed .browse-btn {
+  background-color: var(--accent);
+}
+
+.app-installed #directoryPath {
+  border-color: var(--accent);
+  background-color: white;
+  opacity: 1;
 }

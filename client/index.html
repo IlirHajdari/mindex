@@ -178,24 +178,46 @@
         <button class="close-btn">&times;</button>
       </div>
       <div class="modal-content index-content">
-        <!-- This will be populated with the actual dropZone from the hidden components -->
-      </div>
-    </div>
+        <!-- Directory selection section -->
+        <div class="directory-section">
+          <h3>Select Directory</h3>
+          <div class="dir-input-container">
+            <input
+              type="text"
+              id="modalDirectoryPath"
+              placeholder="Enter directory path (available when installed)"
+              disabled
+              aria-label="Directory path input"
+            />
+          </div>
+          <button
+            id="modalIndexFilesBtn"
+            aria-label="Select files or directories to index"
+          >
+            Browse Directories
+          </button>
+          <div id="modalIndexStatus">Ready to index files</div>
+          <div class="modal-indexing-progress"><div class="bar"></div></div>
+        </div>
 
-    <!-- Drag and Drop Area (Fixed position on screen) -->
-    <div id="drag-drop-container" class="drag-drop-floating">
-      <h3>Drag & Drop Files</h3>
-      <div id="floatingDropZone" class="drop-area floating">
-        <img
-          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='43' viewBox='0 0 24 24' fill='none' stroke='%2378909c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3Cpath d='M12 11v6'%3E%3C/path%3E%3Cpath d='m9 14 3-3 3 3'%3E%3C/path%3E%3C/svg%3E"
-          alt="Folder icon"
-          class="folder-icon"
-        />
-        <p class="drop-text">Drag & drop files or folders here</p>
-        <p class="drop-text-sub">or</p>
-        <button id="floatingIndexBtn" class="secondary-btn">
-          Select Files
-        </button>
+        <!-- Drag and drop section -->
+        <div class="drag-drop-section">
+          <h3>Or Drag & Drop Files</h3>
+          <div
+            id="modalDropZone"
+            class="drop-area"
+            role="region"
+            aria-label="Drag and drop area for files and folders"
+          >
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='43' viewBox='0 0 24 24' fill='none' stroke='%2378909c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z'%3E%3C/path%3E%3Cpath d='M12 11v6'%3E%3C/path%3E%3Cpath d='m9 14 3-3 3 3'%3E%3C/path%3E%3C/svg%3E"
+              alt="Folder icon"
+              class="folder-icon"
+            />
+            <p class="drop-text">Drag & drop files or folders here</p>
+            <p class="drop-text-sub">or</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -212,6 +234,13 @@
 
     <!-- Install App Button -->
     <button id="buttonInstall" class="install-btn">Install App</button>
+
+    <!-- Directory selection button - shows only when app is installed -->
+    <button
+      id="directorySelectBtn"
+      class="directory-select-btn"
+      aria-label="Select directory to index"
+    ></button>
 
     <footer>
       <p>© 2025 Mini Index</p>

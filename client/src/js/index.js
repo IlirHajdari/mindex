@@ -5,6 +5,10 @@ import "../css/style.css";
 import "./database.js";
 import "./editor.js";
 import "./header.js";
+import "./dir-selector.js";
+import "./dragDropIndexer.js";
+import "./app.js";
+import "./install.js";
 
 // Wait for DOM to be fully loaded before manipulating elements
 document.addEventListener("DOMContentLoaded", () => {
