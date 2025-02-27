@@ -1,0 +1,43 @@
+/* Keep existing drop area styling */
+.drop-area {
+  border: 2px dashed #ccc;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+  background-color: var(--secondary);
+  transition: var(--transition);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-area:hover {
+  border-color: var(--primary);
+  background-color: rgba(0, 122, 204, 0.05);
+}
+
+.drop-area.highlight {
+  border-color: var(--primary);
+  background-color: rgba(0, 122, 204, 0.1);
+}
+
+.folder-icon {
+  width: 40px;
+  height: 35px;
+  margin-bottom: 10px;
+}
+
+.drop-text {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  margin: 4px 0;
+}
+
+.drop-text-sub {
+  font-size: 0.8rem;
+  color: #90a4ae;
+  margin-top: 4px;
+}

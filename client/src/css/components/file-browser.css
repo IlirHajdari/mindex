@@ -1,0 +1,36 @@
+/* Style for file preview content */
+#file-preview {
+  padding: 15px;
+  overflow: auto;
+}
+
+.file-content {
+  margin-top: 15px;
+  padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.file-content pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+/* Thumbnail placeholder */
+.thumbnail-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #777;
+}
+
+.file-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}

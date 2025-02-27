@@ -1,0 +1,12 @@
+/* Adjust app container to take full viewport height */
+.app-container {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 60px); /* Leave just enough room for footer */
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  gap: 20px;
+  position: relative;
+  padding: 0; /* Remove all padding */
+}

@@ -1,5 +1,5 @@
 // Import CSS
-import "../css/style.css";
+import "../css/main.css";
 
 // Import any other needed modules from your project
 import "./database.js";

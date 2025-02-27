@@ -1,0 +1,142 @@
+/* Button styling */
+button {
+  padding: 10px 15px;
+  background-color: var(--btn-primary);
+  color: var(--btn-text);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-2px);
+}
+
+#indexFilesBtn {
+  background-color: var(--primary);
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+#applyFiltersBtn {
+  flex: 2;
+  background-color: var(--primary);
+}
+
+#resetFiltersBtn {
+  flex: 1;
+  background-color: #6c757d;
+}
+
+.secondary-btn {
+  background-color: var(--btn-primary);
+  color: var(--btn-text);
+  padding: 8px 15px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.secondary-btn:hover {
+  background-color: var(--btn-hover);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #aaa;
+  width: auto;
+  padding: 0 5px;
+  margin: 0;
+}
+
+.close-btn:hover {
+  color: #555;
+}
+
+/* Position Install App button at top right of main content */
+.install-btn {
+  position: fixed; /* Change to fixed instead of absolute */
+  top: 25px;
+  right: 285px;
+  background-color: var(--accent);
+  color: white;
+  padding: 8px 15px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid #3b8a3d;
+  transition: all 0.2s ease;
+  z-index: 100;
+  cursor: pointer;
+  width: auto; /* Explicitly set width to auto */
+  display: inline-block; /* Change display property */
+  margin: 0; /* Reset any margins */
+  max-width: 150px; /* Set a maximum width */
+}
+
+.install-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: auto; /* Maintain width on hover */
+}
+
+/* Directory selection button for installed version */
+.directory-select-btn {
+  position: fixed;
+  bottom: 60px;
+  right: 130px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(84, 110, 122, 0.3);
+  z-index: 900;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #455a64; /* Darker shade of primary */
+  display: none; /* Hidden by default, shown for installed apps */
+}
+
+.app-installed .directory-select-btn {
+  display: flex; /* Show only when app is installed */
+}
+
+.directory-select-btn::before {
+  content: "📂";
+  font-size: 24px;
+}
+
+.directory-select-btn:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.browse-btn {
+  margin-top: 5px;
+  background-color: var(--primary);
+}
+
+.app-installed .browse-btn {
+  background-color: var(--accent);
+}

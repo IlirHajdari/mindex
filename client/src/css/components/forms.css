@@ -1,0 +1,52 @@
+/* Form elements */
+input[type="text"] {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--secondary);
+  transition: var(--transition);
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+/* Filter group styling */
+.filter-group {
+  margin-bottom: 15px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--secondary);
+}
+
+/* Keep directory input container */
+.dir-input-container {
+  position: relative;
+  width: 100%;
+  opacity: 0.6;
+  margin-bottom: 16px;
+}
+
+.app-installed .dir-input-container {
+  opacity: 1;
+}
+
+.app-installed #directoryPath {
+  border-color: var(--accent);
+  background-color: white;
+  opacity: 1;
+}

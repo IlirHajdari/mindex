@@ -1,0 +1,28 @@
+/* Status message */
+#indexStatus {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #78909c;
+}
+
+/* Dimensions display */
+/* Make sure dimensions indicator is above footer */
+.dimensions {
+  position: absolute;
+  bottom: 70px; /* Position above footer */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 101;
+}
+
+.info-text {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* Show these only when app is installed */
+.app-installed .info-text {
+  display: none;
+}

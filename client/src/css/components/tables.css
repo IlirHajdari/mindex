@@ -1,0 +1,136 @@
+/* Make table header more prominent */
+.table-header {
+  display: flex;
+  background-color: #e0e5eb; /* Darker background */
+  border: 2px solid var(--border-color);
+  border-bottom: 3px solid var(--primary); /* Colored bottom border */
+  padding: 15px 20px;
+  font-weight: 600;
+  color: var(--primary);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Add subtle shadow */
+}
+
+/* Make columns more visible */
+.column {
+  padding: 0 10px;
+  border-right: 2px solid var(--grid-line);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.column:last-child {
+  border-right: none;
+}
+
+.name-column {
+  width: 25%;
+}
+
+.path-column {
+  width: 40%;
+}
+
+.date-column {
+  width: 20%;
+}
+
+/* Adjust the count column to make room for the install button */
+.count-column {
+  width: 18%;
+  text-align: center;
+  padding-right: 120px; /* Add extra padding to avoid overlap with button */
+}
+
+/* Table body */
+.table-body {
+  flex: 1;
+  min-height: 780px; /* Increased minimum height */
+  overflow-y: auto;
+  background-color: #ffffff;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border: 2px solid var(--border-color); /* Thicker border */
+  border-top: none; /* Remove top border since it connects to header */
+  position: relative;
+  padding: 0; /* Remove padding */
+}
+
+/* Enhance empty state */
+.table-body:empty::after {
+  content: "No files indexed yet";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #888888;
+  font-style: italic;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: var(--border-radius);
+  border: 1px dashed #cccccc;
+}
+
+.table-row {
+  display: flex;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--grid-line);
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table-row:hover {
+  background-color: #f5f8fa;
+  transform: translateX(2px);
+}
+
+.table-row > div {
+  padding: 0 10px;
+  border-right: 1px solid var(--grid-line);
+}
+
+.table-row > div:last-child {
+  border-right: none;
+}
+
+/* Additional class for preserving existing table styling when rendered by your JS */
+.indexed-files.new-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.indexed-files.new-layout .file-item {
+  display: flex;
+  border-bottom: 1px solid var(--grid-line);
+}
+
+.indexed-files.new-layout .file-name {
+  width: 25%;
+  padding: 0 10px;
+}
+
+.indexed-files.new-layout .file-path {
+  width: 40%;
+  padding: 0 10px;
+}
+
+.indexed-files.new-layout .file-modified {
+  width: 20%;
+  padding: 0 10px;
+}
+
+.indexed-files.new-layout .file-size {
+  width: 15%;
+  padding: 0 10px;
+  text-align: center;
+}

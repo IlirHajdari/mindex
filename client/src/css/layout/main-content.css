@@ -1,0 +1,89 @@
+/* Main content - extend fully */
+.main-content {
+  flex: 1;
+  margin-left: 240px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius) var(--border-radius) 0 0; /* No bottom rounding */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--border-color);
+  height: 100%;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 0; /* Remove bottom margin */
+}
+
+/* Right sidebar */
+.info-sidebar {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-right: 10px;
+}
+
+.info-panel {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.info-panel h3 {
+  color: var(--primary);
+  font-size: 1rem;
+  margin-bottom: 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--grid-line);
+  padding-bottom: 8px;
+  font-weight: 500;
+}
+
+.info-content {
+  min-height: 70px;
+  font-size: 0.9rem;
+}
+
+.user-info {
+  min-height: 130px;
+}
+
+.file-info {
+  min-height: 200px;
+}
+
+.thumbnail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 80px;
+}
+
+.thumbnail .info-content {
+  min-height: 250px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border-radius: var(--border-radius);
+  margin-top: 10px;
+}
+
+/* Footer positioning */
+footer {
+  margin-top: 0;
+  background-color: var(--primary);
+  color: var(--text-light);
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  width: 100%;
+  position: fixed; /* Fix at bottom */
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}

@@ -1,0 +1,18 @@
+:root {
+  --primary: #546e7a;
+  --secondary: #e9ecef;
+  --accent: #4caf50;
+  --text-dark: #2c3e50;
+  --text-light: #eceff1;
+  --card-bg: #ffffff;
+  --body-bg: #e9ecef;
+  --btn-primary: #546e7a;
+  --btn-hover: #0062a3;
+  --btn-text: #ffffff;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+  --sidebar-bg: #e0e0e0;
+  --border-color: #ddd;
+  --grid-line: #ebebeb;
+}

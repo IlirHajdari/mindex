@@ -1,0 +1,22 @@
+/* Basic Reset - keep as is */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body adjustments to maximize space */
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, sans-serif;
+  background-color: var(--body-bg);
+  color: var(--text-dark);
+  line-height: 1.6;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0; /* Remove all padding */
+  overflow: hidden; /* Prevent scrolling */
+}
