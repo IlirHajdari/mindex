@@ -1,3 +1,6 @@
+import { processFiles } from "./file-processing.js";
+import { hideProgress } from "../ui/progress-handler.js";
+
 // Process items from drag and drop that may include directories
 async function processDataTransferItems(
   items,

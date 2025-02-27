@@ -1,3 +1,7 @@
+import { showProgress, hideProgress } from "../ui/progress-handler.js";
+import { processDataTransferItems } from "./entry-processing.js";
+import { processFiles } from "./file-processing.js";
+
 // Initialize drag and drop functionality
 function initDragAndDrop(
   dropZone,

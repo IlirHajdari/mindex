@@ -1,3 +1,6 @@
+import { formatFileSize } from "../utils/file-utils.js";
+import { showFileContent } from "../ui/file-display.js";
+
 // Initialize search functionality
 function initSearch() {
   const searchBtn = document.getElementById("searchBtn");

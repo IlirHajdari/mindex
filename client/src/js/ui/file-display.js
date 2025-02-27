@@ -1,3 +1,5 @@
+import { formatFileSize, escapeHtml } from "../utils/file-utils.js";
+
 // Update the UI to show indexed files
 function updateIndexedFilesUI(fileIndex) {
   const filePreview = document.getElementById("file-preview");

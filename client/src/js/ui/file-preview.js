@@ -1,3 +1,5 @@
+import { processSpecialFileContent } from "../utils/file-utils.js";
+
 // Generate a preview for non-text files
 function generateFilePreview(file) {
   const extension = file.name.split(".").pop().toLowerCase();
@@ -87,9 +89,35 @@ function generatePptPreview(file) {
   return `<div class="file-preview-placeholder">PowerPoint Preview: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0c8AAAAASUVORK5CYII=" alt="PPT Thumbnail" class="file-preview-thumbnail" /></div>`;
 }
 
+// Process special file types (CSV, DOCX, PDF, PPT/PPTX) for preview
+function processSpecialFileContent(file, content) {
+  switch (file.name.split(".").pop().toLowerCase()) {
+    case "csv":
+      // Parse CSV content into a readable format
+      return content
+        .split("\n")
+        .map((row) => row.split(",").map((cell) => cell.trim()))
+        .map((row) => row.join(" | "))
+        .join("\n");
+    case "docx":
+      // Placeholder for DOCX - provide a text preview or thumbnail
+      return generateDocxPreview(file);
+    case "pdf":
+      // Use pdf.js to generate a thumbnail or preview
+      return generatePdfPreview(file);
+    case "ppt":
+    case "pptx":
+      // Placeholder for PowerPoint - provide a thumbnail or text preview
+      return generatePptPreview(file);
+    default:
+      return content || "Content not available";
+  }
+}
+
 export {
   generateFilePreview,
   generatePdfPreview,
   generateDocxPreview,
   generatePptPreview,
+  processSpecialFileContent,
 };
