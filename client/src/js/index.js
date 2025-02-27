@@ -1,14 +1,9 @@
-// Import CSS
-import "../css/main.css";
-
 // Import any other needed modules from your project
-import "./database.js";
-import "./editor.js";
-import "./header.js";
-import "./dir-selector.js";
+import "../css/main.css";
 import "./dragDropIndexer.js";
 import "./app.js";
 import "./install.js";
+import "./dir-selector.js";
 
 // Wait for DOM to be fully loaded before manipulating elements
 document.addEventListener("DOMContentLoaded", () => {
