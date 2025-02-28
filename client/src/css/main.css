@@ -16,6 +16,7 @@
 @import "./components/search.css";
 @import "./components/file-browser.css";
 @import "./components/drop-area.css";
+@import "./components/thumbnails.css";
 
 /* Utilities */
 @import "./utilities/progress.css";

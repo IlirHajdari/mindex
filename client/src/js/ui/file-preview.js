@@ -26,51 +26,58 @@ function generateFilePreview(file) {
 function generatePdfPreview(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
+
     reader.onload = async function (e) {
       try {
-        // Import pdf.js (ensure it's installed and configured)
+        // Dynamically import pdf.js and the worker
         const { getDocument, GlobalWorkerOptions } = await import("pdfjs-dist");
-        GlobalWorkerOptions.workerSrc =
-          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        const pdfWorker = await import("pdfjs-dist/build/pdf.worker.mjs");
 
+        // ✅ Set the correct local worker path
+        GlobalWorkerOptions.workerSrc = pdfWorker;
+
+        // Read PDF data
         const pdfData = new Uint8Array(e.target.result);
         const pdf = await getDocument({ data: pdfData }).promise;
         const page = await pdf.getPage(1); // Get the first page for thumbnail
-        const viewport = page.getViewport({ scale: 0.5 });
+
+        // Set scale and viewport for rendering
+        const scale = 0.5;
+        const viewport = page.getViewport({ scale });
+
+        // Create a canvas for rendering
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
-        canvas.height = viewport.height;
         canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        // Render the first page onto the canvas
         await page.render({ canvasContext: context, viewport }).promise;
 
+        // Convert canvas to image and return as a thumbnail
         resolve(
           `<img src="${canvas.toDataURL()}" alt="PDF Thumbnail" class="file-preview-thumbnail" />`
         );
       } catch (error) {
         console.error("Error generating PDF preview:", error);
         resolve(
-          "Preview not available. <a href='" +
-            URL.createObjectURL(file) +
-            "' download='" +
-            file.name +
-            "' target='_blank'>Download " +
-            file.name +
-            "</a>"
+          `Preview not available. <a href='${URL.createObjectURL(
+            file
+          )}' download='${file.name}' target='_blank'>Download ${file.name}</a>`
         );
       }
     };
+
     reader.onerror = function (error) {
       console.error("Error reading PDF:", error);
       resolve(
-        "Preview not available. <a href='" +
-          URL.createObjectURL(file) +
-          "' download='" +
-          file.name +
-          "' target='_blank'>Download " +
-          file.name +
-          "</a>"
+        `Preview not available. <a href='${URL.createObjectURL(
+          file
+        )}' download='${file.name}' target='_blank'>Download ${file.name}</a>`
       );
     };
+
+    // Read the PDF file as an ArrayBuffer
     reader.readAsArrayBuffer(file);
   });
 }

@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackPwaManifest = require("webpack-pwa-manifest");
 const path = require("path");
-const webpack = require("webpack"); // Add webpack for DefinePlugin
+const webpack = require("webpack");
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -17,7 +17,7 @@ module.exports = (env, argv) => {
       filename: "[name].bundle.js",
       path: path.resolve(__dirname, "dist"),
       publicPath: "/",
-      clean: true, // Cleans 'dist' folder before rebuilding
+      clean: true,
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -49,11 +49,9 @@ module.exports = (env, argv) => {
         ],
         includeDirectory: true,
       }),
-      // Copy src-sw.js to output directory
       {
         apply: (compiler) => {
           compiler.hooks.afterEmit.tap("CopyServiceWorker", (compilation) => {
-            // Copy service worker file to dist
             require("fs").copyFileSync(
               path.resolve(__dirname, "src-sw.js"),
               path.resolve(__dirname, "dist", "src-sw.js")
@@ -82,6 +80,14 @@ module.exports = (env, argv) => {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
           type: "asset/resource",
         },
+        // ✅ Fix for PDF.js Web Worker
+        {
+          test: /pdf\.worker\.(mjs|js)$/,
+          type: "asset/resource",
+          generator: {
+            filename: "pdf.worker.js", // Ensure Webpack outputs the worker as a separate file
+          },
+        },
       ],
     },
     devServer: {
@@ -96,8 +102,8 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
       watchFiles: {
         options: {
-          aggregateTimeout: 200, // Wait 200ms before triggering a rebuild
-          poll: 1000, // Poll every 1 second instead of continuous watching
+          aggregateTimeout: 200,
+          poll: 1000,
         },
       },
       client: {
