@@ -119,6 +119,10 @@ module.exports = (env, argv) => {
       extensions: [".js", ".json"],
       alias: {
         "@": path.resolve(__dirname, "src"),
+        "pdfjs-dist/build/pdf.worker.mjs": path.resolve(
+          __dirname,
+          "node_modules/pdfjs-dist/build/pdf.worker.mjs"
+        ), // ✅ Ensures correct worker path
       },
     },
   };

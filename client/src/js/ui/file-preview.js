@@ -22,23 +22,27 @@ function generateFilePreview(file) {
   }
 }
 
-// Generate PDF preview using pdf.js (requires installation)
 function generatePdfPreview(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
 
     reader.onload = async function (e) {
       try {
-        // Dynamically import pdf.js and the worker
-        const { getDocument, GlobalWorkerOptions } = await import("pdfjs-dist");
-        const pdfWorker = await import("pdfjs-dist/build/pdf.worker.mjs");
+        // ✅ Dynamically import pdf.js
+        const pdfjsLib = await import("pdfjs-dist");
+        const pdfWorker = new URL(
+          "pdfjs-dist/build/pdf.worker.mjs",
+          import.meta.url
+        );
 
-        // ✅ Set the correct local worker path
-        GlobalWorkerOptions.workerSrc = pdfWorker;
+        // ✅ Set the correct worker source
+        pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker.href;
+
+        console.log("Generating PDF preview for:", file.name);
 
         // Read PDF data
         const pdfData = new Uint8Array(e.target.result);
-        const pdf = await getDocument({ data: pdfData }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
         const page = await pdf.getPage(1); // Get the first page for thumbnail
 
         // Set scale and viewport for rendering
@@ -54,30 +58,45 @@ function generatePdfPreview(file) {
         // Render the first page onto the canvas
         await page.render({ canvasContext: context, viewport }).promise;
 
-        // Convert canvas to image and return as a thumbnail
-        resolve(
-          `<img src="${canvas.toDataURL()}" alt="PDF Thumbnail" class="file-preview-thumbnail" />`
-        );
+        setTimeout(() => {
+          const dataUrl = canvas.toDataURL("image/png");
+          console.log("Generated Thumbnail Data URL:", dataUrl);
+
+          if (dataUrl) {
+            // ✅ Ensure thumbnail is inserted into #thumbnailContent
+            const thumbnailContainer =
+              document.querySelector("#thumbnailContent");
+
+            // ✅ Clear the existing thumbnail before inserting a new one
+            thumbnailContainer.innerHTML = "";
+
+            // ✅ Create a properly styled img element
+            const imgElement = document.createElement("img");
+            imgElement.src = dataUrl;
+            imgElement.alt = "PDF Thumbnail";
+            imgElement.classList.add("file-preview-thumbnail");
+
+            // ✅ Append to container
+            thumbnailContainer.appendChild(imgElement);
+            console.log("Updated thumbnail in #thumbnailContent");
+          } else {
+            console.error("Thumbnail generation failed.");
+            document.querySelector("#thumbnailContent").innerHTML =
+              "<div class='thumbnail-placeholder'>No preview available</div>";
+          }
+          resolve(dataUrl);
+        }, 100);
       } catch (error) {
         console.error("Error generating PDF preview:", error);
-        resolve(
-          `Preview not available. <a href='${URL.createObjectURL(
-            file
-          )}' download='${file.name}' target='_blank'>Download ${file.name}</a>`
-        );
+        resolve(null);
       }
     };
 
     reader.onerror = function (error) {
       console.error("Error reading PDF:", error);
-      resolve(
-        `Preview not available. <a href='${URL.createObjectURL(
-          file
-        )}' download='${file.name}' target='_blank'>Download ${file.name}</a>`
-      );
+      resolve(null);
     };
 
-    // Read the PDF file as an ArrayBuffer
     reader.readAsArrayBuffer(file);
   });
 }
