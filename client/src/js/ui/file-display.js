@@ -172,5 +172,3 @@ export {
   generateThumbnail,
   getFileTypeFromName,
 };
-
-export { updateIndexedFilesUI, showFileContent };
