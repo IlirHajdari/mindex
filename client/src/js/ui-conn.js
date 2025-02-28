@@ -137,15 +137,38 @@ document.addEventListener("DOMContentLoaded", function () {
     if (thumbnailContent) {
       // Generate thumbnail based on file type
       if (file.type && file.type.startsWith("image/")) {
-        thumbnailContent.innerHTML = `<div class="thumbnail-preview">Image preview not available</div>`;
+        // For actual files (not sample data)
+        if (file instanceof File || file.blob) {
+          const fileUrl = file.blob
+            ? URL.createObjectURL(file.blob)
+            : URL.createObjectURL(file);
+          thumbnailContent.innerHTML = `
+            <div class="thumbnail-preview">
+              <img src="${fileUrl}" alt="${file.name}" class="thumbnail-image" />
+            </div>`;
+        } else if (
+          file.content &&
+          typeof file.content === "string" &&
+          file.content.includes("<img")
+        ) {
+          // For files with content that already has an image tag
+          thumbnailContent.innerHTML = `<div class="thumbnail-preview">${file.content}</div>`;
+        } else {
+          // Fallback for image types without blob
+          thumbnailContent.innerHTML = `
+            <div class="thumbnail-placeholder">
+              <span class="file-icon">🖼️</span>
+              <p>${file.name}</p>
+            </div>`;
+        }
       } else {
+        // For non-image files
         const fileIcon = getFileIcon(file.name);
         thumbnailContent.innerHTML = `
-            <div class="thumbnail-placeholder">
-              <span class="file-icon">${fileIcon}</span>
-              <p>Preview not available</p>
-            </div>
-          `;
+          <div class="thumbnail-placeholder">
+            <span class="file-icon">${fileIcon}</span>
+            <p>${file.name}</p>
+          </div>`;
       }
     }
   }
@@ -250,4 +273,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load sample data initially (will be replaced when real files are indexed)
   loadSampleData();
+
+  document.addEventListener("click", function (event) {
+    const row = event.target.closest(".table-row");
+    if (row) {
+      try {
+        const fileIndex = JSON.parse(localStorage.getItem("fileIndex")) || {};
+        const pathText = row.querySelector(".path-column")?.textContent || "";
+
+        const file = Object.values(fileIndex).find(
+          (f) =>
+            f.path === pathText ||
+            pathText.includes(f.path) ||
+            `(${f.path})` === pathText
+        );
+        if (file) {
+          showFileDetails(file);
+
+          if (typeof window.showFileContent === "function") {
+            window.showFileContent(file, fileIndex);
+          }
+        }
+      } catch (error) {
+        console.error("Error handling table row click:", error);
+      }
+    }
+  });
 });

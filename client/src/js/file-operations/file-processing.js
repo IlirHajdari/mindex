@@ -1,11 +1,11 @@
 import { isInstalledPWA } from "../utils/feature-detection.js";
+// Remove this import since we're getting processSpecialFileContent from file-preview now
+// import { processSpecialFileContent } from "../utils/file-utils.js";
+// Make sure generateFilePreview is only imported once
 import {
   processSpecialFileContent,
   generateFilePreview,
 } from "../ui/file-preview.js";
-// Remove the import of processSpecialFileContent from "../utils/file-utils.js";
-//import { processSpecialFileContent } from "../utils/file-utils.js";
-import { generateFilePreview } from "../ui/file-preview.js";
 import { showProgress, hideProgress } from "../ui/progress-handler.js";
 import { saveFileIndex } from "../storage/file-storage.js";
 import { updateIndexedFilesUI } from "../ui/file-display.js";

@@ -1,4 +1,9 @@
 import {
+  processSpecialFileContent,
+  generateFilePreview,
+} from "../ui/file-preview.js";
+
+import {
   generateDocxPreview,
   generatePdfPreview,
   generatePptPreview,
@@ -25,4 +30,4 @@ function escapeHtml(unsafe) {
     .replace(/'/g, "&#039;");
 }
 
-export { formatFileSize, escapeHtml, processSpecialFileContent };
+export { formatFileSize, escapeHtml };

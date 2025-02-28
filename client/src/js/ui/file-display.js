@@ -33,11 +33,12 @@ function updateIndexedFilesUI(fileIndex) {
   });
 }
 
-// Show file content in the preview pane
+// Show file content in the preview pane and update side panels
 function showFileContent(file, fileIndex) {
   const filePreview = document.getElementById("file-preview");
   if (!filePreview) return;
 
+  // Update file content preview
   let html =
     '<div class="preview-header"><h2>File Preview: ' +
     file.name +
@@ -73,10 +74,103 @@ function showFileContent(file, fileIndex) {
   document
     .getElementById("backToFiles")
     .addEventListener("click", () => updateIndexedFilesUI(fileIndex));
+
+  // Update sidebar panels
+  updateSidePanels(file);
 }
 
-// Note: This will need imports from other modules
-// import { formatFileSize } from "../utils/file-utils.js";
-// import { escapeHtml } from "../utils/file-utils.js";
+// New function to update side panels
+function updateSidePanels(file) {
+  // Update file info panel
+  const fileInfoContent = document.getElementById("fileInfoContent");
+  if (fileInfoContent) {
+    fileInfoContent.innerHTML = `
+        <p><strong>Name:</strong> ${file.name}</p>
+        <p><strong>Path:</strong> ${file.path || ""}</p>
+        <p><strong>Size:</strong> ${formatFileSize(file.size)}</p>
+        <p><strong>Type:</strong> ${
+          file.type || getFileTypeFromName(file.name)
+        }</p>
+        <p><strong>Modified:</strong> ${new Date(
+          file.lastModified
+        ).toLocaleString()}</p>
+      `;
+  }
+
+  // Update thumbnail panel
+  const thumbnailContent = document.getElementById("thumbnailContent");
+  if (thumbnailContent) {
+    thumbnailContent.innerHTML = generateThumbnail(file);
+  }
+
+  // Update user info panel with placeholder data
+  const userInfoContent = document.getElementById("userInfoContent");
+  if (userInfoContent) {
+    userInfoContent.innerHTML = `
+        <p><strong>Owner:</strong> Current User</p>
+        <p><strong>Last accessed:</strong> ${new Date().toLocaleString()}</p>
+        <p><strong>Permissions:</strong> Read, Write</p>
+      `;
+  }
+}
+
+// Helper function to generate a thumbnail
+function generateThumbnail(file) {
+  // For images
+  if (file.type && file.type.startsWith("image/")) {
+    return `<div class="thumbnail-preview">
+        <img src="${URL.createObjectURL(file)}" alt="${
+      file.name
+    }" class="thumbnail-image" />
+      </div>`;
+  }
+
+  // For other file types, show an icon based on file extension
+  const extension = file.name.split(".").pop().toLowerCase();
+  let fileIcon = "📄"; // Default file icon
+
+  if (["pdf"].includes(extension)) fileIcon = "📄";
+  if (["doc", "docx", "txt"].includes(extension)) fileIcon = "📝";
+  if (["jpg", "jpeg", "png", "gif", "svg"].includes(extension)) fileIcon = "🖼️";
+  if (["xls", "xlsx", "csv"].includes(extension)) fileIcon = "📊";
+  if (["ppt", "pptx"].includes(extension)) fileIcon = "📊";
+  if (["html", "css", "js", "json"].includes(extension)) fileIcon = "📋";
+
+  return `<div class="thumbnail-placeholder">
+      <span class="file-icon">${fileIcon}</span>
+      <p>${file.name}</p>
+    </div>`;
+}
+
+// Helper function to get file type from extension
+function getFileTypeFromName(filename) {
+  const ext = filename.split(".").pop().toLowerCase();
+  const types = {
+    pdf: "PDF Document",
+    doc: "Word Document",
+    docx: "Word Document",
+    xls: "Excel Spreadsheet",
+    xlsx: "Excel Spreadsheet",
+    ppt: "PowerPoint",
+    pptx: "PowerPoint",
+    txt: "Text Document",
+    csv: "CSV File",
+    json: "JSON File",
+    html: "HTML File",
+    css: "CSS File",
+    js: "JavaScript File",
+  };
+
+  return types[ext] || "Unknown File Type";
+}
+
+// Export these new functions too
+export {
+  updateIndexedFilesUI,
+  showFileContent,
+  updateSidePanels,
+  generateThumbnail,
+  getFileTypeFromName,
+};
 
 export { updateIndexedFilesUI, showFileContent };

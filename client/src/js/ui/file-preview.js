@@ -1,5 +1,3 @@
-import { processSpecialFileContent } from "../utils/file-utils.js";
-
 // Generate a preview for non-text files
 function generateFilePreview(file) {
   const extension = file.name.split(".").pop().toLowerCase();
